@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import wait.CustomConditions;
 
@@ -14,10 +16,18 @@ import java.util.List;
 
 public class WebDriverSeleniumTest {
 
+    private WebDriver driver;
 
-    @Test
-    public  void commonSearchTermReRsultsNotEmpty() {
-        WebDriver driver = new ChromeDriver();
+    @BeforeMethod (alwaysRun = true)
+    public void browserSetup(){
+        driver = new ChromeDriver();
+
+    }
+
+
+    @Test (description = "Just first test, JIRA binding can be here")
+    public  void commonSearchTermResultsAreNotEmpty() {
+
         driver.get("https://www.seleniumhq.org/");
 
         new WebDriverWait(driver,10)
@@ -38,7 +48,13 @@ public class WebDriverSeleniumTest {
 
         Assert.assertTrue(searchResults.size()>0,"Search results are empty");
 
+
+    }
+
+    @AfterMethod (alwaysRun = true)
+    public void browserTearDown() {
         driver.quit();
+        driver=null;
     }
 
     private static WebElement waitForElementLocatedBy(WebDriver driver) {
